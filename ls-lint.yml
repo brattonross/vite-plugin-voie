@@ -1,0 +1,7 @@
+ls:
+  .js: kebab-case
+  .ts: kebab-case
+  .spec.ts: kebab-case
+
+ignore:
+  - node_modules
