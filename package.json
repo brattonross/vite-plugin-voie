@@ -20,7 +20,8 @@
     "dev": "tsup src/index.ts --watch",
     "build": "tsup src/index.ts --dts",
     "lint": "prettier --write --parser typescript \"src/**/*.ts\"",
-    "test": "jest"
+    "test": "jest",
+    "test:watch": "jest --watch"
   },
   "gitHooks": {
     "pre-commit": "lint-staged"
@@ -43,6 +44,8 @@
     "pify": "^5.0.0"
   },
   "devDependencies": {
+    "@babel/preset-env": "^7.11.0",
+    "@babel/preset-typescript": "^7.10.4",
     "@ls-lint/ls-lint": "^1.9.2",
     "@types/fs-extra": "^9.0.1",
     "@types/glob": "^7.1.3",
