@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/vamplate/vite-plugin-voie/tree/master/#readme",
   "scripts": {
+    "dev": "tsup src/index.ts --watch",
     "build": "tsup src/index.ts --dts",
     "lint": "prettier --write --parser typescript \"src/**/*.ts\"",
     "test": "jest"
@@ -32,15 +33,28 @@
       "prettier --parser=typescript --write"
     ]
   },
+  "peerDependencies": {
+    "vite": "^1.0.0-rc.3",
+    "vue-router": "^4.0.0-beta.4"
+  },
+  "dependencies": {
+    "fs-extra": "^9.0.1",
+    "glob": "^7.1.6",
+    "pify": "^5.0.0"
+  },
   "devDependencies": {
     "@ls-lint/ls-lint": "^1.9.2",
+    "@types/fs-extra": "^9.0.1",
+    "@types/glob": "^7.1.3",
     "@types/jest": "^26.0.7",
     "@types/node": "^14.0.25",
+    "@types/pify": "^3.0.2",
     "jest": "^26.1.0",
     "lint-staged": "^10.2.11",
     "prettier": "^2.0.5",
     "tsup": "^3.1.2",
     "typescript": "^3.9.7",
+    "vite": "^1.0.0-rc.3",
     "yorkie": "^2.0.0"
   }
 }

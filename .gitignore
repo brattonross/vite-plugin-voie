@@ -1,2 +1,4 @@
 dist
 node_modules
+.vscode
+examples/**/package-lock.json
