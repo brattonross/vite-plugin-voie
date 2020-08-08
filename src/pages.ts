@@ -1,6 +1,6 @@
 import Glob from 'glob';
 import pify from 'pify';
-import { buildRoutes } from './routes';
+import { buildRoutes, stringifyRoutes } from './routes';
 
 /**
  * Generates a string containing code that exports
@@ -15,10 +15,10 @@ export async function generateRoutesCode({
 }) {
   const files = await resolveFiles(pagesDir, supportedExtensions);
   const routes = buildRoutes(files, pagesDir, supportedExtensions);
-  // TODO: Transform routes to stringified form.
+  const stringifiedRoutes = stringifyRoutes(routes);
 
   return `import { defineAsyncComponent } from 'vue';
-export default [${routes}];`.trim();
+export default ${stringifiedRoutes};`.trim();
 }
 
 const glob = pify(Glob);

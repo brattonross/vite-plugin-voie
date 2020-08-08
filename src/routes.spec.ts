@@ -11,11 +11,6 @@ test('given basic routes it should return the correct structure', () => {
   ];
   const expected: Route[] = [
     {
-      name: 'index',
-      path: '/',
-      component: '/src/pages/index.vue',
-    },
-    {
       name: 'user',
       path: '/user',
       component: '/src/pages/user/index.vue',
@@ -24,6 +19,11 @@ test('given basic routes it should return the correct structure', () => {
       name: 'user-one',
       path: '/user/one',
       component: '/src/pages/user/one.vue',
+    },
+    {
+      name: 'index',
+      path: '/',
+      component: '/src/pages/index.vue',
     },
   ];
 
@@ -58,6 +58,35 @@ test('given dynamic routes it should return the correct structure', () => {
       name: 'slug-comments',
       path: '/:slug/comments',
       component: '/src/pages/[slug]/comments.vue',
+    },
+  ];
+
+  const actual = buildRoutes(files, defaultPagesDir, defaultExtensions);
+  expect(actual).toEqual(expected);
+});
+
+test('given nested routes it should return the correct structure', () => {
+  const files = [
+    'src/pages/users.vue',
+    'src/pages/users/[id].vue',
+    'src/pages/users/index.vue',
+  ];
+  const expected = [
+    {
+      path: '/users',
+      component: '/src/pages/users.vue',
+      children: [
+        {
+          path: '',
+          component: '/src/pages/users/index.vue',
+          name: 'users',
+        },
+        {
+          path: ':id',
+          component: '/src/pages/users/[id].vue',
+          name: 'users-id',
+        },
+      ],
     },
   ];
 
