@@ -13,6 +13,8 @@ Install Voie:
 $ npm install vite-plugin-voie
 ```
 
+> Note: vue-router@4.0.0 is a peer dependency
+
 Add to your `vite.config.js`:
 
 ```js
@@ -59,6 +61,70 @@ export default {
   ],
 };
 ```
+
+## File System Routing
+
+Voie's routing is inspired by [NuxtJS](https://nuxtjs.org/guides/features/file-system-routing), and so you can expect similar features with some small differences.
+
+### Index Routes
+
+Voie will automatically map files named `index` to the root of the directory:
+
+- `src/pages/index.vue` -> `/`
+- `src/pages/users/index.vue` -> `/users`
+
+### Nested Routes
+
+A nested folder structure will result in nested routes, making use of Vue Router's child routes:
+
+- `src/pages/users/one.vue` -> `/users/one`
+- `src/pages/dashboard/settings/profile.vue` -> `/dashboard/settings/profile`
+
+You can effectively create layout pages by naming a page with the same name as the directory that contains its children pages:
+
+This directory structure:
+
+```
+src/pages/
+  ├── users/
+  │  ├── [id].vue
+  │  └── index.vue
+  └── users.vue
+```
+
+will result in this routes configuration:
+
+```js
+[
+  {
+    path: '/users',
+    component: '/src/pages/users.vue',
+    children: [
+      {
+        path: '',
+        component: '/src/pages/users/index.vue',
+        name: 'users',
+      },
+      {
+        path: ':id',
+        component: '/src/pages/users/[id].vue',
+        name: 'users-id',
+      },
+    ],
+  },
+];
+```
+
+### Dynamic Routes
+
+Dynamic routes are denoted using square brackets. Directories and pages can be dynamic:
+
+- `src/pages/users/[id].vue` -> `/users/:id` (`/users/one`)
+- `src/[user]/settings.vue` -> `/:user/settings` (`/one/settings`)
+
+### Catch-all Routes
+
+Catch-all routes are currently not implemented, but are a planned feature.
 
 ## Trivia
 
