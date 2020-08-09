@@ -10,11 +10,6 @@ export function buildRoutes(
   pagesDir: string,
   extensions: string[]
 ) {
-  // TODO: Create routes based on file path and sort.
-  // Nested routes: When there is a .vue file with the same name as a directory,
-  // any components in the directory should be mapped to children of the parent route.
-  // Sort Order: /static, /index, /:dynamic
-  // Match exact route before index: /login before /index/_slug
   const routes: Route[] = [];
 
   for (const file of files) {
@@ -37,7 +32,7 @@ export function buildRoutes(
       // Remove square brackets at the start and end.
       const isDynamicPart = isDynamicRoute(part);
       const normalizedPart = (isDynamicPart
-        ? part.replace(/^\[/, '').replace(/\]$/, '')
+        ? part.replace(/^\[(\.{3})?/, '').replace(/\]$/, '')
         : part
       ).toLowerCase();
 
@@ -55,7 +50,11 @@ export function buildRoutes(
       } else if (normalizedPart !== 'index') {
         if (isDynamicPart) {
           route.path += `/:${normalizedPart}`;
-          if (i === pathParts.length - 1) {
+
+          // Catch-all route
+          if (/^\[\.{3}/.test(part)) {
+            route.path += '(.*)';
+          } else if (i === pathParts.length - 1) {
             route.path += '?';
           }
         } else {

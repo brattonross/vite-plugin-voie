@@ -93,3 +93,38 @@ test('given nested routes it should return the correct structure', () => {
   const actual = buildRoutes(files, defaultPagesDir, defaultExtensions);
   expect(actual).toEqual(expected);
 });
+
+test('given a catch-all route it should return the correct structure', () => {
+  const files = [
+    'src/pages/[...all].vue',
+    'src/pages/users.vue',
+    'src/pages/users/[id].vue',
+    'src/pages/users/index.vue',
+  ];
+  const expected = [
+    {
+      path: '/users',
+      component: '/src/pages/users.vue',
+      children: [
+        {
+          path: '',
+          component: '/src/pages/users/index.vue',
+          name: 'users',
+        },
+        {
+          path: ':id',
+          component: '/src/pages/users/[id].vue',
+          name: 'users-id',
+        },
+      ],
+    },
+    {
+      name: 'all',
+      path: '/:all(.*)',
+      component: '/src/pages/[...all].vue',
+    },
+  ];
+
+  const actual = buildRoutes(files, defaultPagesDir, defaultExtensions);
+  expect(actual).toEqual(expected);
+});
