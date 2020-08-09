@@ -37,6 +37,29 @@ const router = createRouter({
 });
 ```
 
+## Configuration
+
+Voie supports some configuration options in case your environment doesn't match the default:
+
+- `pagesDir` - Relative path to the pages directory (defaults to `src/pages`)
+- `extensions` - Array of valid extensions for pages (defaults to `['vue', 'js']`)
+
+To use custom configuration, pass your options to Voie when creating the plugin:
+
+```js
+// vite.config.js
+import voie from 'vite-plugin-voie';
+
+export default {
+  plugins: [
+    voie({
+      pagesDir: 'src/views',
+      extensions: ['vue', 'ts'],
+    }),
+  ],
+};
+```
+
 ## Trivia
 
 [voie](https://en.wiktionary.org/wiki/voie) is the french word for "way" and is pronounced `/vwa/`.
