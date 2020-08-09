@@ -124,7 +124,11 @@ Dynamic routes are denoted using square brackets. Directories and pages can be d
 
 ### Catch-all Routes
 
-Catch-all routes are currently not implemented, but are a planned feature.
+Catch-all routes are denoted with square brackets containing an ellipsis:
+
+- `src/pages/[...all].vue` -> `/*` (`/non-existent-page`)
+
+The text after the ellipsis will be used both to name the route, and as the name of the prop in which the route parameters are passed.
 
 ## Trivia
 
