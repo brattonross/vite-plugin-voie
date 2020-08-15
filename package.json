@@ -1,28 +1,8 @@
 {
-  "name": "vite-plugin-voie",
+  "private": true,
   "version": "0.2.0",
-  "description": "Vite plugin for file-system based routing.",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
-  "files": [
-    "dist"
-  ],
-  "author": "Ross Bratton",
-  "license": "MIT",
-  "repository": {
-    "url": "https://github.com/vamplate/vite-plugin-voie.git"
-  },
-  "bugs": {
-    "url": "https://github.com/vamplate/vite-plugin-voie/issues"
-  },
-  "homepage": "https://github.com/vamplate/vite-plugin-voie/tree/master/#readme",
   "scripts": {
-    "dev": "tsup src/index.ts --watch",
-    "build": "tsup src/index.ts --dts",
-    "lint": "prettier --write --parser typescript \"src/**/*.ts\"",
-    "test": "jest",
-    "test:watch": "jest --watch",
-    "prepublishOnly": "npm run build"
+    "release": "lerna publish --conventional-commits"
   },
   "gitHooks": {
     "pre-commit": "lint-staged"
@@ -35,28 +15,17 @@
       "prettier --parser=typescript --write"
     ]
   },
-  "peerDependencies": {
-    "vite": "^1.0.0-rc.3",
-    "vue-router": "^4.0.0-beta.4"
-  },
-  "dependencies": {
-    "glob": "^7.1.6",
-    "pify": "^5.0.0"
-  },
   "devDependencies": {
     "@babel/preset-env": "^7.11.0",
     "@babel/preset-typescript": "^7.10.4",
     "@ls-lint/ls-lint": "^1.9.2",
-    "@types/glob": "^7.1.3",
     "@types/jest": "^26.0.7",
     "@types/node": "^14.0.25",
-    "@types/pify": "^3.0.2",
     "jest": "^26.1.0",
+    "lerna": "^3.22.1",
     "lint-staged": "^10.2.11",
     "prettier": "^2.0.5",
-    "tsup": "^3.1.2",
     "typescript": "^3.9.7",
-    "vite": "^1.0.0-rc.3",
     "yorkie": "^2.0.0"
   }
 }

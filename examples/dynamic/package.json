@@ -1,4 +1,5 @@
 {
+  "private": true,
   "name": "dynamic",
   "version": "0.0.0",
   "scripts": {

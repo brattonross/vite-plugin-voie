@@ -1,5 +1,7 @@
 # voie 🛣
 
+![npm version](https://img.shields.io/npm/v/vite-plugin-voie)
+
 Voie is a [vite](https://github.com/vitejs/vite) plugin which enables file system based routing for Vue 3 applications.
 
 - File system based routing
@@ -27,16 +29,22 @@ export default {
 
 When using Voie, a page is a Vue component exported from a `.vue` or `.js` file in the `src/pages` directory.
 
-The routes configuration will be exported from the `/@voie/pages` module. Import this module and add it to your Vue Router configuration:
+The routes configuration will be exported from the `@voie/pages` module. Import this module and add it to your Vue Router configuration:
 
 ```js
 import { createRouter } from 'vue-router';
-import routes from '/@voie/pages';
+import routes from '@voie/pages';
 
 const router = createRouter({
   // ...
   routes,
 });
+```
+
+> Note: If using TypeScript, you can install type definitions for the generated routes like so:
+
+```bash
+$ npm install --save-dev @voie/pages
 ```
 
 ## Configuration

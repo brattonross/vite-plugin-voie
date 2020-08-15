@@ -1,5 +1,6 @@
 {
-  "name": "basic",
+  "private": true,
+  "name": "nested",
   "version": "0.0.0",
   "scripts": {
     "dev": "vite",
