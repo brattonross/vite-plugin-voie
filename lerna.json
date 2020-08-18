@@ -1,10 +1,13 @@
 {
-  "version": "0.2.0",
+  "version": "0.3.0",
   "npmClient": "npm",
   "command": {
     "version": {
       "allowBranch": "master"
     }
   },
-  "packages": ["packages/**", "examples/*"]
+  "packages": [
+    "packages/**",
+    "examples/*"
+  ]
 }
