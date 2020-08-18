@@ -41,7 +41,7 @@ const router = createRouter({
 });
 ```
 
-> Note: If using TypeScript, you can install type definitions for the generated routes like so:
+> Note: TypeScript users can install type definitions for the generated routes via the @voie/pages package:
 
 ```bash
 $ npm install --save-dev @voie/pages

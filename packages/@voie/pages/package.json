@@ -5,6 +5,7 @@
   "author": "Ross Bratton <bratton.ross@gmail.com>",
   "homepage": "https://github.com/vamplate/vite-plugin-voie#readme",
   "license": "MIT",
+  "main": "index.js",
   "types": "index.d.ts",
   "publishConfig": {
     "access": "public"
