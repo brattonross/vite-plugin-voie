@@ -2,6 +2,8 @@ import Glob from 'glob';
 import pify from 'pify';
 import { buildRoutes, stringifyRoutes } from './routes';
 
+export const MODULE_NAME = '@voie/pages';
+
 /**
  * Generates a string containing code that exports
  * a `routes` array that is compatible with Vue Router.

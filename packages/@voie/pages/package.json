@@ -1,0 +1,16 @@
+{
+  "name": "@voie/pages",
+  "version": "0.2.0",
+  "description": "Type definitions for vite-plugin-voie",
+  "author": "Ross Bratton <bratton.ross@gmail.com>",
+  "homepage": "https://github.com/vamplate/vite-plugin-voie#readme",
+  "license": "MIT",
+  "main": "index.js",
+  "types": "index.d.ts",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "vue-router": "^4.0.0-beta.4"
+  }
+}
