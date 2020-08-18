@@ -29,11 +29,11 @@ export default {
 
 When using Voie, a page is a Vue component exported from a `.vue` or `.js` file in the `src/pages` directory.
 
-The routes configuration will be exported from the `@voie/pages` module. Import this module and add it to your Vue Router configuration:
+The routes configuration will be exported from the `voie-pages` module. Import this module and add it to your Vue Router configuration:
 
 ```js
 import { createRouter } from 'vue-router';
-import routes from '@voie/pages';
+import routes from 'voie-pages';
 
 const router = createRouter({
   // ...
@@ -41,10 +41,10 @@ const router = createRouter({
 });
 ```
 
-> Note: TypeScript users can install type definitions for the generated routes via the @voie/pages package:
+> Note: TypeScript users can install type definitions for the generated routes via the voie-pages package:
 
 ```bash
-$ npm install --save-dev @voie/pages
+$ npm install --save-dev voie-pages
 ```
 
 ## Configuration
