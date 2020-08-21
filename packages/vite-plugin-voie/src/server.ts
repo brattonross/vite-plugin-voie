@@ -12,7 +12,10 @@ export function createServerPlugin({
 }: Options): ServerPlugin {
   return ({ app }) => {
     app.use(async (ctx, next) => {
-      if (ctx.path === `/@modules/${MODULE_NAME}/index.js`) {
+      if (
+        ctx.path === `/@modules/${MODULE_NAME}` ||
+        ctx.path === `/@modules/${MODULE_NAME}/index.js`
+      ) {
         ctx.body = await generateRoutesCode({ pagesDir, supportedExtensions });
         ctx.type = 'js';
         ctx.status = 200;
