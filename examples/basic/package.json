@@ -1,7 +1,7 @@
 {
   "private": true,
   "name": "basic",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
@@ -14,6 +14,6 @@
   "devDependencies": {
     "@vue/compiler-sfc": "^3.0.0-rc.5",
     "vite": "^1.0.0-rc.4",
-    "vite-plugin-voie": "^0.3.0"
+    "vite-plugin-voie": "^0.3.1"
   }
 }
