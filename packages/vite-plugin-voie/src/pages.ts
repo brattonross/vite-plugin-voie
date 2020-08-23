@@ -1,5 +1,6 @@
 import Glob from 'glob';
 import pify from 'pify';
+import { Options } from './options';
 import { buildRoutes, stringifyRoutes } from './routes';
 
 export const MODULE_NAME = 'voie-pages';
@@ -8,15 +9,9 @@ export const MODULE_NAME = 'voie-pages';
  * Generates a string containing code that exports
  * a `routes` array that is compatible with Vue Router.
  */
-export async function generateRoutesCode({
-  pagesDir,
-  supportedExtensions,
-}: {
-  pagesDir: string;
-  supportedExtensions: string[];
-}) {
-  const files = await resolveFiles(pagesDir, supportedExtensions);
-  const routes = buildRoutes(files, pagesDir, supportedExtensions);
+export async function generateRoutesCode({ pagesDir, extensions }: Options) {
+  const files = await resolveFiles(pagesDir, extensions);
+  const routes = buildRoutes(files, pagesDir, extensions);
   const stringifiedRoutes = stringifyRoutes(routes);
 
   return `import { defineAsyncComponent } from 'vue';
