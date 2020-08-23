@@ -1,3 +1,5 @@
+import { ImportMode, ImportModeResolveFn, Options } from './options';
+
 export interface Route {
   name?: string;
   path: string;
@@ -155,29 +157,61 @@ function prepareRoutes(routes: Route[], hasParent = false) {
   return routes;
 }
 
-export function stringifyRoutes(routes: Route[]) {
-  return `[${routes.map(stringifyRoute).join(',\n')}]`;
+function resolveImportMode(
+  filepath: string,
+  mode: ImportMode | ImportModeResolveFn
+) {
+  if (typeof mode === 'function') {
+    return mode(filepath);
+  }
+  return mode;
+}
+
+function pathToName(filepath: string) {
+  return filepath.replace(/[\_\.\-\\\/]/g, '_').replace(/[\[:\]()]/g, '$');
+}
+
+export function stringifyRoutes(routes: Route[], options: Options) {
+  const imports: string[] = ['import { defineAsyncComponent } from "vue"'];
+
+  const routesCode = routes
+    .map((route) => stringifyRoute(imports, route, options))
+    .join(',\n');
+
+  return `${imports.join(';\n')}
+
+export default [${routesCode}];`.trim();
 }
 
 /**
  * Creates a stringified Vue Router route definition.
  */
-function stringifyRoute({ name, path, component, children }: Route): string {
+function stringifyRoute(
+  imports: string[],
+  { name, path, component, children }: Route,
+  options: Options
+): string {
   const props = [];
 
   if (name) {
     props.push(`name: '${name}'`);
   }
 
-  props.push(
-    `path: '${path}'`,
-    `component: defineAsyncComponent(() => import('${component}'))`,
-    'props: true'
-  );
+  props.push(`path: '${path}'`);
+  props.push('props: true');
+
+  const mode = resolveImportMode(component, options.importMode);
+  if (mode === 'sync') {
+    const importName = pathToName(component);
+    imports.push(`import ${importName} from '${component}'`);
+    props.push(`component: ${importName}`);
+  } else {
+    props.push(`component: defineAsyncComponent(() => import('${component}'))`);
+  }
 
   if (children) {
     props.push(`children: [
-      ${children.map(stringifyRoute)},\n
+      ${children.map((route) => stringifyRoute(imports, route, options))},\n
     ]`);
   }
 

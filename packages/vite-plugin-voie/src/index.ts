@@ -7,6 +7,7 @@ function createPlugin(userOptions: UserOptions = {}): Plugin {
   const options: Options = {
     pagesDir: 'src/pages',
     extensions: ['vue', 'js'],
+    importMode: 'async',
     ...userOptions,
   };
 

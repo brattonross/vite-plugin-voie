@@ -12,6 +12,14 @@ export interface Options {
    * @default ['vue', 'js']
    */
   extensions: string[];
+  /**
+   * Import routes directly or as async components
+   * @default 'async'
+   */
+  importMode: ImportMode | ImportModeResolveFn;
 }
+
+export type ImportMode = 'sync' | 'async';
+export type ImportModeResolveFn = (filepath: string) => ImportMode;
 
 export type UserOptions = Partial<Options>;
