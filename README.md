@@ -49,10 +49,50 @@ $ npm install --save-dev voie-pages
 
 ## Configuration
 
-Voie supports some configuration options in case your environment doesn't match the default:
+Voie supports some configuration options in case your environment doesn't match the defaults.
 
-- `pagesDir` - Relative path to the pages directory (defaults to `src/pages`)
-- `extensions` - Array of valid extensions for pages (defaults to `['vue', 'js']`)
+```ts
+interface UserOptions {
+  pagesDir?: string;
+  extensions?: string[];
+  importMode?: ImportMode | ImportModeResolveFn;
+}
+```
+
+### pagesDir
+
+Relative path to the pages directory
+
+**Default:** `'src/pages'`
+
+### extensions
+
+Array of valid extensions for pages
+
+**Default:** `['vue', 'js']`
+
+### importMode
+
+A string or function that returns a string which represents whether routes should be loaded synchronously or asynchronously.
+
+**Default:** `'async'`
+
+To get more fine-grained control over which routes are loaded sync/async, you can use a function to resolve the value based on the route path. For example:
+
+```js
+// vite.config.js
+export default {
+  // ...
+  plugins: [
+    voie({
+      importMode(path) {
+        // Load index synchronously, all other pages are async.
+        return path === '/' ? 'sync' : 'async';
+      },
+    }),
+  ],
+};
+```
 
 To use custom configuration, pass your options to Voie when creating the plugin:
 
@@ -137,6 +177,10 @@ Catch-all routes are denoted with square brackets containing an ellipsis:
 - `src/pages/[...all].vue` -> `/*` (`/non-existent-page`)
 
 The text after the ellipsis will be used both to name the route, and as the name of the prop in which the route parameters are passed.
+
+## Thanks
+
+Many thanks go to [@antfu](https://github.com/antfu) for their support of this project.
 
 ## Trivia
 
