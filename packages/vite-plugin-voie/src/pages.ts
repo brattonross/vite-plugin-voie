@@ -1,5 +1,4 @@
-import Glob from 'glob';
-import pify from 'pify';
+import fg from 'fast-glob';
 import { buildRoutes, stringifyRoutes } from './routes';
 
 export const MODULE_NAME = 'voie-pages';
@@ -23,8 +22,6 @@ export async function generateRoutesCode({
 export default ${stringifiedRoutes};`.trim();
 }
 
-const glob = pify(Glob);
-
 /**
  * Searches the given directory (and subdirectories) for any files that qualify as a page.
  * @param dir The directory to search.
@@ -34,5 +31,8 @@ async function resolveFiles(
   dir: string,
   extensions: string[]
 ): Promise<string[]> {
-  return await glob(`${dir}/**/*.{${extensions.join(',')}}`);
+  return await fg(`${dir}/**/*.{${extensions.join(',')}}`, {
+    ignore: ['node_modules', '.git'],
+    onlyFiles: true,
+  });
 }
