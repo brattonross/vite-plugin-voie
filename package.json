@@ -2,7 +2,7 @@
   "private": true,
   "version": "0.2.0",
   "scripts": {
-    "release": "lerna publish --conventional-commits"
+    "release": "lerna publish"
   },
   "gitHooks": {
     "pre-commit": "lint-staged"
