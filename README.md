@@ -87,7 +87,7 @@ export default {
     voie({
       importMode(path) {
         // Load index synchronously, all other pages are async.
-        return path === '/' ? 'sync' : 'async';
+        return path.includes('index') ? 'sync' : 'async';
       },
     }),
   ],
