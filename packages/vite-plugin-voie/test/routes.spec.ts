@@ -1,4 +1,4 @@
-import { buildRoutes, Route } from './routes';
+import { buildRoutes, Route } from '../src/routes';
 
 const defaultPagesDir = 'src/pages';
 const defaultExtensions = ['vue', 'js'];
