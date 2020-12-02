@@ -172,7 +172,7 @@ function pathToName(filepath: string) {
 }
 
 export function stringifyRoutes(routes: Route[], options: Options) {
-  const imports: string[] = ['import { defineAsyncComponent } from "vue"'];
+  const imports: string[] = [];
 
   const routesCode = routes
     .map((route) => stringifyRoute(imports, route, options))
@@ -206,7 +206,7 @@ function stringifyRoute(
     imports.push(`import ${importName} from '${component}'`);
     props.push(`component: ${importName}`);
   } else {
-    props.push(`component: defineAsyncComponent(() => import('${component}'))`);
+    props.push(`component: () => import('${component}')`);
   }
 
   if (children) {
