@@ -11,6 +11,11 @@ test('given basic routes it should return the correct structure', () => {
   ];
   const expected: Route[] = [
     {
+      name: 'index',
+      path: '/',
+      component: '/src/pages/index.vue',
+    },
+    {
       name: 'user',
       path: '/user',
       component: '/src/pages/user/index.vue',
@@ -19,11 +24,6 @@ test('given basic routes it should return the correct structure', () => {
       name: 'user-one',
       path: '/user/one',
       component: '/src/pages/user/one.vue',
-    },
-    {
-      name: 'index',
-      path: '/',
-      component: '/src/pages/index.vue',
     },
   ];
 
@@ -77,14 +77,14 @@ test('given nested routes it should return the correct structure', () => {
       component: '/src/pages/users.vue',
       children: [
         {
-          path: '',
-          component: '/src/pages/users/index.vue',
-          name: 'users',
-        },
-        {
           path: ':id',
           component: '/src/pages/users/[id].vue',
           name: 'users-id',
+        },
+        {
+          path: '',
+          component: '/src/pages/users/index.vue',
+          name: 'users',
         },
       ],
     },
@@ -103,25 +103,25 @@ test('given a catch-all route it should return the correct structure', () => {
   ];
   const expected = [
     {
+      name: 'all',
+      path: '/:all(.*)',
+      component: '/src/pages/[...all].vue',
+    },
+    {
       path: '/users',
       component: '/src/pages/users.vue',
       children: [
-        {
-          path: '',
-          component: '/src/pages/users/index.vue',
-          name: 'users',
-        },
         {
           path: ':id',
           component: '/src/pages/users/[id].vue',
           name: 'users-id',
         },
+        {
+          path: '',
+          component: '/src/pages/users/index.vue',
+          name: 'users',
+        },
       ],
-    },
-    {
-      name: 'all',
-      path: '/:all(.*)',
-      component: '/src/pages/[...all].vue',
     },
   ];
 

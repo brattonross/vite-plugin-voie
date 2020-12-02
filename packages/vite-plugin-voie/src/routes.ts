@@ -68,72 +68,10 @@ export function buildRoutes(
     parent.push(route);
   }
 
-  sortRoutes(routes);
   return prepareRoutes(routes);
 }
 
 const isDynamicRoute = (s: string) => /^\[.+\]$/.test(s);
-
-/**
- * Sorts the routes into the correct order for Vue Router to use.
- */
-function sortRoutes(routes: Route[]) {
-  routes.sort((a, b) => {
-    if (!a.path.length) {
-      return -1;
-    }
-    if (!b.path.length) {
-      return 1;
-    }
-
-    if (a.path === '/') {
-      return /\/:/.test(b.path) ? -1 : 1;
-    }
-    if (b.path === '/') {
-      return /\/:/.test(a.path) ? 1 : -1;
-    }
-
-    const aParts = a.path.split('/');
-    const bParts = b.path.split('/');
-
-    let compareVal = 0;
-    for (let i = 0; i < aParts.length; i++) {
-      if (compareVal !== 0) {
-        break;
-      }
-
-      const aRank = aParts[i].includes(':') ? 1 : 0;
-      const bRank = bParts[i].includes(':') ? 1 : 0;
-      compareVal = aRank - bRank;
-
-      // If a.length >= b.length
-      if (i === bParts.length - 1 && aRank - bRank === 0) {
-        compareVal =
-          aParts.length === bParts.length
-            ? a.path.localeCompare(b.path)
-            : aParts.length - bParts.length;
-      }
-    }
-
-    if (compareVal === 0) {
-      // Sort by length, then alphabetically
-      compareVal =
-        aParts.length === bParts.length
-          ? a.path.localeCompare(b.path)
-          : aParts.length - bParts.length;
-    }
-
-    return compareVal;
-  });
-
-  for (const route of routes) {
-    if (route.children) {
-      sortRoutes(route.children);
-    }
-  }
-
-  return routes;
-}
 
 /**
  * Performs a final cleanup on the routes array.
