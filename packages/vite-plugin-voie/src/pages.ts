@@ -10,7 +10,7 @@ export const MODULE_NAME = 'voie-pages';
  */
 export async function generateRoutesCode(options: Options) {
   const { pagesDir, extensions } = options;
-  const files = await resolveFiles(pagesDir, extensions);
+  const files = options.files || (await resolveFiles(pagesDir, extensions));
   const routes = buildRoutes(files, pagesDir, extensions);
   return stringifyRoutes(routes, options);
 }

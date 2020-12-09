@@ -56,6 +56,7 @@ interface UserOptions {
   pagesDir?: string;
   extensions?: string[];
   importMode?: ImportMode | ImportModeResolveFn;
+  files?: string[];
 }
 ```
 
@@ -109,6 +110,14 @@ export default {
   ],
 };
 ```
+
+### files
+
+Array of file paths for pages.
+
+To get more fine-grained control over which files sholud be used to build the routes.
+
+> Note: Use this option will bypass the default file search method
 
 ## File System Routing
 

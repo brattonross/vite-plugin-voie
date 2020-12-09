@@ -17,6 +17,10 @@ export interface Options {
    * @default 'async'
    */
   importMode: ImportMode | ImportModeResolveFn;
+  /**
+   * Array of file paths for page components.
+   */
+  files?: string[];
 }
 
 export type ImportMode = 'sync' | 'async';
