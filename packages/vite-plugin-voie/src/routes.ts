@@ -130,7 +130,7 @@ export default [${routesCode}];`.trim();
  */
 function stringifyRoute(
   imports: string[],
-  { name, path, component, children }: Route,
+  { name, path, component, children, meta }: Route,
   options: Options
 ): string {
   const props = [];
@@ -155,6 +155,10 @@ function stringifyRoute(
     props.push(`children: [
       ${children.map((route) => stringifyRoute(imports, route, options))},\n
     ]`);
+  }
+
+  if (meta) {
+    props.push(`meta: ${JSON.stringify(meta)}`)
   }
 
   return `{${props.join(',\n')}}`.trim();
