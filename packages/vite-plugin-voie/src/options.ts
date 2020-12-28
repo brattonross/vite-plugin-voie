@@ -17,9 +17,21 @@ export interface Options {
    * @default 'async'
    */
   importMode: ImportMode | ImportModeResolveFn;
+  /**
+   * Extend route records
+   */
+  extendRoute?: (route: Route, parent: Route | undefined) => Route | void;
 }
 
 export type ImportMode = 'sync' | 'async';
 export type ImportModeResolveFn = (filepath: string) => ImportMode;
 
 export type UserOptions = Partial<Options>;
+
+export interface Route {
+  name?: string;
+  path: string;
+  component: string;
+  children?: Route[];
+  meta?: Record<string, unknown>;
+}

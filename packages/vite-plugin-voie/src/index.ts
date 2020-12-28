@@ -8,6 +8,7 @@ function createPlugin(userOptions: UserOptions = {}): Plugin {
     pagesDir: 'src/pages',
     extensions: ['vue', 'js'],
     importMode: 'async',
+    extendRoute: route => route,
     ...userOptions,
   };
 
