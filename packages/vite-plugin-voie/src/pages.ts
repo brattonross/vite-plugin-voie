@@ -9,9 +9,9 @@ export const MODULE_NAME = 'voie-pages';
  * a `routes` array that is compatible with Vue Router.
  */
 export async function generateRoutesCode(options: Options) {
-  const { pagesDir, extensions } = options;
+  const { pagesDir, extensions, extendRoute } = options;
   const files = await resolveFiles(pagesDir, extensions);
-  const routes = buildRoutes(files, pagesDir, extensions);
+  const routes = buildRoutes(files, pagesDir, extensions, extendRoute);
   return stringifyRoutes(routes, options);
 }
 

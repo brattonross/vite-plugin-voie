@@ -1,22 +1,18 @@
-import { ImportMode, ImportModeResolveFn, Options } from './options';
-
-export interface Route {
-  name?: string;
-  path: string;
-  component: string;
-  children?: Route[];
-}
+import { ImportMode, ImportModeResolveFn, Options, Route } from './options';
+import globToRegexp from 'glob-to-regexp';
 
 export function buildRoutes(
   files: string[],
   pagesDir: string,
-  extensions: string[]
+  extensions: string[],
+  extendRoute?: Options['extendRoute']
 ) {
   const routes: Route[] = [];
 
   for (const file of files) {
+    const re = String(globToRegexp(pagesDir, { extended: true })).slice(1, -2)
     const pathParts = file
-      .replace(new RegExp(`^${pagesDir}`), '')
+      .replace(new RegExp(re), '')
       .replace(new RegExp(`\\.(${extensions.join('|')})$`), '')
       .split('/')
       .slice(1); // removing the pagesDir means that the path begins with a '/'
@@ -65,10 +61,14 @@ export function buildRoutes(
       }
     }
 
+    // if (typeof extendRoute === 'function') {
+    //   Object.assign(route, extendRoute(route, file) || {})
+    // }
+
     parent.push(route);
   }
 
-  return prepareRoutes(routes);
+  return prepareRoutes(routes, extendRoute);
 }
 
 const isDynamicRoute = (s: string) => /^\[.+\]$/.test(s);
@@ -77,19 +77,23 @@ const isDynamicRoute = (s: string) => /^\[.+\]$/.test(s);
  * Performs a final cleanup on the routes array.
  * This is done to ease the process of finding parents of nested routes.
  */
-function prepareRoutes(routes: Route[], hasParent = false) {
+function prepareRoutes(routes: Route[], extendRoute: Options['extendRoute'], parent?: Route) {
   for (const route of routes) {
     if (route.name) {
       route.name = route.name.replace(/-index$/, '');
     }
 
-    if (hasParent) {
+    if (parent) {
       route.path = route.path.replace(/^\//, '').replace(/\?$/, '');
     }
 
     if (route.children) {
       delete route.name;
-      route.children = prepareRoutes(route.children, true);
+      route.children = prepareRoutes(route.children, extendRoute, route);
+    }
+
+    if (typeof extendRoute === 'function') {
+      Object.assign(route, extendRoute(route, parent) || {})
     }
   }
   return routes;
