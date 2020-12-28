@@ -56,18 +56,19 @@ interface UserOptions {
   pagesDir?: string;
   extensions?: string[];
   importMode?: ImportMode | ImportModeResolveFn;
+  extendRoute?: (route: Route, parent: Route | undefined) => Route | void;
 }
 ```
 
 ### pagesDir
 
-Relative path to the pages directory
+Relative path to the pages directory. Supports globs.
 
 **Default:** `'src/pages'`
 
 ### extensions
 
-Array of valid extensions for pages
+Array of valid extensions for pages.
 
 **Default:** `['vue', 'js']`
 
@@ -88,6 +89,33 @@ export default {
       importMode(path) {
         // Load index synchronously, all other pages are async.
         return path.includes('index') ? 'sync' : 'async';
+      },
+    }),
+  ],
+};
+```
+
+### extendRoute
+
+A function that takes a `Route` object (and that route's parent route), and optionally returns a modified route. This is useful for augmenting your routes with extra data (e.g. route metadata).
+
+```js
+// vite.config.js
+export default {
+  // ...
+  plugins: [
+    voie({
+      extendRoute(route) {
+        if (route.path === '/') {
+          // Index is unauthenticated.
+          return route;
+        }
+
+        // Augment the route with meta that indicates that the route requires authentication.
+        return {
+          ...route,
+          meta: { auth: true },
+        };
       },
     }),
   ],
