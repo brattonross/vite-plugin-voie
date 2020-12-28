@@ -1,0 +1,19 @@
+{
+  "private": true,
+  "name": "glob",
+  "version": "0.4.1",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "serve": "vite serve"
+  },
+  "dependencies": {
+    "vue": "^3.0.0-rc.5",
+    "vue-router": "^4.0.0-beta.4"
+  },
+  "devDependencies": {
+    "@vue/compiler-sfc": "^3.0.0-rc.5",
+    "vite": "^1.0.0-rc.4",
+    "vite-plugin-voie": "^0.4.1"
+  }
+}
