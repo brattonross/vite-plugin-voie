@@ -1,5 +1,6 @@
 import type { ServerPlugin } from 'vite';
-import { generateRoutesCode, MODULE_NAME } from './pages';
+import { MODULE_NAME } from './constants';
+import { generateRoutesCode } from './generator';
 import { Options } from './options';
 
 export function createServerPlugin(options: Options): ServerPlugin {
