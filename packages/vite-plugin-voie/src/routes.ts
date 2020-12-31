@@ -1,26 +1,36 @@
-import { ImportMode, ImportModeResolveFn, Options, Route } from './options';
 import globToRegexp from 'glob-to-regexp';
+import { ImportMode, ImportModeResolveFn, Options, Route } from './options';
 
-export function buildRoutes(
-  files: string[],
-  pagesDir: string,
-  extensions: string[],
-  extendRoute?: Options['extendRoute']
-) {
+export interface BuildRoutesContext {
+  files: string[];
+  dir: string;
+  extensions: string[];
+  root: string;
+  extendRoute?: Options['extendRoute'];
+}
+
+export function buildRoutes({
+  files,
+  dir,
+  extensions,
+  root,
+  extendRoute,
+}: BuildRoutesContext) {
   const routes: Route[] = [];
 
   for (const file of files) {
-    const re = String(globToRegexp(pagesDir, { extended: true })).slice(1, -2)
+    const re = String(globToRegexp(dir, { extended: true })).slice(1, -2);
     const pathParts = file
       .replace(new RegExp(re), '')
       .replace(new RegExp(`\\.(${extensions.join('|')})$`), '')
       .split('/')
       .slice(1); // removing the pagesDir means that the path begins with a '/'
 
+    const component = file.replace(root, '');
     const route: Route = {
       name: '',
       path: '',
-      component: `/${file}`,
+      component: component.startsWith('/') ? component : `/${component}`,
     };
 
     let parent = routes;
@@ -61,10 +71,6 @@ export function buildRoutes(
       }
     }
 
-    // if (typeof extendRoute === 'function') {
-    //   Object.assign(route, extendRoute(route, file) || {})
-    // }
-
     parent.push(route);
   }
 
@@ -77,7 +83,11 @@ const isDynamicRoute = (s: string) => /^\[.+\]$/.test(s);
  * Performs a final cleanup on the routes array.
  * This is done to ease the process of finding parents of nested routes.
  */
-function prepareRoutes(routes: Route[], extendRoute: Options['extendRoute'], parent?: Route) {
+function prepareRoutes(
+  routes: Route[],
+  extendRoute: Options['extendRoute'],
+  parent?: Route
+) {
   for (const route of routes) {
     if (route.name) {
       route.name = route.name.replace(/-index$/, '');
@@ -93,7 +103,7 @@ function prepareRoutes(routes: Route[], extendRoute: Options['extendRoute'], par
     }
 
     if (typeof extendRoute === 'function') {
-      Object.assign(route, extendRoute(route, parent) || {})
+      Object.assign(route, extendRoute(route, parent) || {});
     }
   }
   return routes;
@@ -158,7 +168,7 @@ function stringifyRoute(
   }
 
   if (meta) {
-    props.push(`meta: ${JSON.stringify(meta)}`)
+    props.push(`meta: ${JSON.stringify(meta)}`);
   }
 
   return `{${props.join(',\n')}}`.trim();

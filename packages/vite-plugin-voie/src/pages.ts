@@ -1,4 +1,5 @@
 import fg from 'fast-glob';
+import path from 'path';
 import { Options } from './options';
 import { buildRoutes, stringifyRoutes } from './routes';
 
@@ -9,9 +10,10 @@ export const MODULE_NAME = 'voie-pages';
  * a `routes` array that is compatible with Vue Router.
  */
 export async function generateRoutesCode(options: Options) {
-  const { pagesDir, extensions, extendRoute } = options;
-  const files = await resolveFiles(pagesDir, extensions);
-  const routes = buildRoutes(files, pagesDir, extensions, extendRoute);
+  const { root, pagesDir, extensions, extendRoute } = options;
+  const dir = path.join(root, pagesDir);
+  const files = await resolveFiles(dir, extensions);
+  const routes = buildRoutes({ files, dir, extensions, root, extendRoute });
   return stringifyRoutes(routes, options);
 }
 

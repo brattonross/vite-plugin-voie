@@ -5,10 +5,11 @@ import { createServerPlugin } from './server';
 
 function createPlugin(userOptions: UserOptions = {}): Plugin {
   const options: Options = {
+    root: process.cwd(),
     pagesDir: 'src/pages',
     extensions: ['vue', 'js'],
     importMode: 'async',
-    extendRoute: route => route,
+    extendRoute: (route) => route,
     ...userOptions,
   };
 
