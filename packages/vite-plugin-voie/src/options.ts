@@ -19,6 +19,10 @@ export interface Options {
    */
   extensions: string[];
   /**
+   * List of path globs to exclude when resolving pages.
+   */
+  exclude: string[];
+  /**
    * Import routes directly or as async components
    * @default 'async'
    */
