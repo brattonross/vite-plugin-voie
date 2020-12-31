@@ -8,9 +8,9 @@ import { buildRoutes, stringifyRoutes } from './routes';
  * a `routes` array that is compatible with Vue Router.
  */
 export async function generateRoutesCode(options: Options) {
-  const { root, pagesDir, extensions, extendRoute } = options;
+  const { root, pagesDir, exclude, extensions, extendRoute } = options;
   const dir = path.join(root, pagesDir);
-  const files = await resolve(dir, extensions);
+  const files = await resolve({ dir, extensions, exclude });
   const routes = buildRoutes({ files, dir, extensions, root, extendRoute });
   return stringifyRoutes(routes, options);
 }
