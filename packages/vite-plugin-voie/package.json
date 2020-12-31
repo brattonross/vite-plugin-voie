@@ -15,7 +15,7 @@
   "bugs": {
     "url": "https://github.com/vamplate/vite-plugin-voie/issues"
   },
-  "homepage": "https://github.com/vamplate/vite-plugin-voie/tree/master/#readme",
+  "homepage": "https://github.com/vamplate/vite-plugin-voie/tree/main/#readme",
   "scripts": {
     "dev": "tsup src/index.ts --watch",
     "build": "tsup src/index.ts --dts",

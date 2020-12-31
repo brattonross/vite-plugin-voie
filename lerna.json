@@ -3,11 +3,8 @@
   "npmClient": "npm",
   "command": {
     "version": {
-      "allowBranch": "master"
+      "allowBranch": "main"
     }
   },
-  "packages": [
-    "packages/**",
-    "examples/*"
-  ]
+  "packages": ["packages/**", "examples/*"]
 }
