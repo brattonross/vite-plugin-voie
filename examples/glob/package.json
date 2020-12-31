@@ -12,8 +12,6 @@
     "vue-router": "^4.0.0-beta.4"
   },
   "devDependencies": {
-    "@vue/compiler-sfc": "^3.0.0-rc.5",
-    "vite": "^1.0.0-rc.4",
-    "vite-plugin-voie": "^0.5.0"
+    "vite-plugin-voie": "file:../../packages/vite-plugin-voie"
   }
 }

@@ -3,6 +3,12 @@
  */
 export interface Options {
   /**
+   * Vite config.
+   * If you set a custom `root` in vite then you must pass it here as well.
+   * @default process.cwd()
+   */
+  root: string;
+  /**
    * Relative path to the directory to search for page components.
    * @default 'src/pages'
    */

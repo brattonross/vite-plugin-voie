@@ -1,6 +1,6 @@
 {
   "private": true,
-  "name": "basic",
+  "name": "custom-root",
   "version": "0.5.0",
   "scripts": {
     "dev": "vite",

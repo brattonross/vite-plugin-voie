@@ -1,3 +1,4 @@
+import { join } from 'path';
 import { Route } from './../src/options';
 import { buildRoutes } from '../src/routes';
 
@@ -28,7 +29,12 @@ test('given basic routes it should return the correct structure', () => {
     },
   ];
 
-  const actual = buildRoutes(files, defaultPagesDir, defaultExtensions);
+  const actual = buildRoutes({
+    files,
+    dir: defaultPagesDir,
+    extensions: defaultExtensions,
+    root: '',
+  });
   expect(actual).toEqual(expected);
 });
 
@@ -62,7 +68,12 @@ test('given dynamic routes it should return the correct structure', () => {
     },
   ];
 
-  const actual = buildRoutes(files, defaultPagesDir, defaultExtensions);
+  const actual = buildRoutes({
+    files,
+    dir: defaultPagesDir,
+    extensions: defaultExtensions,
+    root: '',
+  });
   expect(actual).toEqual(expected);
 });
 
@@ -91,7 +102,12 @@ test('given nested routes it should return the correct structure', () => {
     },
   ];
 
-  const actual = buildRoutes(files, defaultPagesDir, defaultExtensions);
+  const actual = buildRoutes({
+    files,
+    dir: defaultPagesDir,
+    extensions: defaultExtensions,
+    root: '',
+  });
   expect(actual).toEqual(expected);
 });
 
@@ -126,7 +142,12 @@ test('given a catch-all route it should return the correct structure', () => {
     },
   ];
 
-  const actual = buildRoutes(files, defaultPagesDir, defaultExtensions);
+  const actual = buildRoutes({
+    files,
+    dir: defaultPagesDir,
+    extensions: defaultExtensions,
+    root: '',
+  });
   expect(actual).toEqual(expected);
 });
 
@@ -139,15 +160,15 @@ test('given a glob as pagesDir and extend route it should resolve to correct pat
 
   const extend = (route: Route) => {
     if (route.component.startsWith('/src/module-b')) {
-      route.path = '/module-a-prefix' + route.path
+      route.path = '/module-a-prefix' + route.path;
     }
     if (route.component.startsWith('/src/module-c')) {
-      route.path = '/module-c-prefix' + route.path
-      route.name = 'module-c--' + route.name
-      route.meta = { ...route.meta, module: 'module-c' }
+      route.path = '/module-c-prefix' + route.path;
+      route.name = 'module-c--' + route.name;
+      route.meta = { ...route.meta, module: 'module-c' };
     }
     return route;
-  }
+  };
 
   const expected: Route[] = [
     {
@@ -165,11 +186,51 @@ test('given a glob as pagesDir and extend route it should resolve to correct pat
       path: '/module-c-prefix/user/one',
       component: '/src/module-c/sub-directory/pages/user/one.vue',
       meta: {
-        module: 'module-c'
-      }
+        module: 'module-c',
+      },
     },
   ];
 
-  const actual = buildRoutes(files, 'src/**/pages', defaultExtensions, extend);
+  const actual = buildRoutes({
+    files,
+    dir: 'src/**/pages',
+    extensions: defaultExtensions,
+    root: '',
+    extendRoute: extend,
+  });
   expect(actual).toEqual(expected);
-})
+});
+
+test('given a custom root, should return the correct component path', () => {
+  const root = join(__dirname, 'app');
+  const files = [
+    join(root, 'pages/index.vue'),
+    join(root, 'pages/user/index.vue'),
+    join(root, 'pages/user/one.vue'),
+  ];
+  const expected: Route[] = [
+    {
+      name: 'index',
+      path: '/',
+      component: '/pages/index.vue',
+    },
+    {
+      name: 'user',
+      path: '/user',
+      component: '/pages/user/index.vue',
+    },
+    {
+      name: 'user-one',
+      path: '/user/one',
+      component: '/pages/user/one.vue',
+    },
+  ];
+
+  const actual = buildRoutes({
+    files,
+    dir: join(root, 'pages'),
+    extensions: defaultExtensions,
+    root,
+  });
+  expect(actual).toEqual(expected);
+});

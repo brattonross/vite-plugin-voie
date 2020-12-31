@@ -1,26 +1,36 @@
-import { ImportMode, ImportModeResolveFn, Options, Route } from './options';
 import globToRegexp from 'glob-to-regexp';
+import { ImportMode, ImportModeResolveFn, Options, Route } from './options';
 
-export function buildRoutes(
-  files: string[],
-  pagesDir: string,
-  extensions: string[],
-  extendRoute?: Options['extendRoute']
-) {
+export interface BuildRoutesContext {
+  files: string[];
+  dir: string;
+  extensions: string[];
+  root: string;
+  extendRoute?: Options['extendRoute'];
+}
+
+export function buildRoutes({
+  files,
+  dir,
+  extensions,
+  root,
+  extendRoute,
+}: BuildRoutesContext) {
   const routes: Route[] = [];
 
   for (const file of files) {
-    const re = String(globToRegexp(pagesDir, { extended: true })).slice(1, -2);
+    const re = String(globToRegexp(dir, { extended: true })).slice(1, -2);
     const pathParts = file
       .replace(new RegExp(re), '')
       .replace(new RegExp(`\\.(${extensions.join('|')})$`), '')
       .split('/')
       .slice(1); // removing the pagesDir means that the path begins with a '/'
 
+    const component = file.replace(root, '');
     const route: Route = {
       name: '',
       path: '',
-      component: `/${file}`,
+      component: component.startsWith('/') ? component : `/${component}`,
     };
 
     let parent = routes;
