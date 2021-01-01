@@ -2,7 +2,7 @@
   "private": true,
   "scripts": {
     "postinstall": "lerna bootstrap",
-    "release": "lerna publish",
+    "release": "lerna publish --no-private",
     "test": "lerna run test --stream --parallel"
   },
   "gitHooks": {
