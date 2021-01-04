@@ -11,11 +11,15 @@ Voie is a [vite](https://github.com/vitejs/vite) plugin which enables file syste
 
 Install Voie:
 
+> Note: Vite 2 is supported from v0.7.x+, for Vite 1 please use v0.6.x
+
 ```bash
 $ npm install vite-plugin-voie
 ```
 
-> Note: vue-router@4.0.0 is a peer dependency
+For
+
+> Note: vue-router@4.x is a peer dependency
 
 Add to your `vite.config.js`:
 
