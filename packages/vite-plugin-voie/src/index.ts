@@ -1,7 +1,7 @@
 import type { Plugin } from 'vite';
-import { createRollupPlugin } from './build';
+import { MODULE_NAME } from './constants';
+import { generateRoutesCode } from './generator';
 import { Options, UserOptions } from './options';
-import { createServerPlugin } from './server';
 
 function createPlugin(userOptions: UserOptions = {}): Plugin {
   const options: Options = {
@@ -15,9 +15,18 @@ function createPlugin(userOptions: UserOptions = {}): Plugin {
   };
 
   return {
-    configureServer: createServerPlugin(options),
-    rollupInputOptions: {
-      plugins: [createRollupPlugin(options)],
+    name: 'voie',
+    resolveId(source) {
+      if (source === MODULE_NAME) {
+        return source;
+      }
+      return null;
+    },
+    async load(id) {
+      if (id === MODULE_NAME) {
+        return await generateRoutesCode(options);
+      }
+      return null;
     },
   };
 }

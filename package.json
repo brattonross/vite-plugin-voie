@@ -1,7 +1,7 @@
 {
   "private": true,
-  "name": "vite-plugin-voie",
   "scripts": {
+    "postinstall": "lerna bootstrap",
     "release": "lerna publish",
     "test": "lerna run test --stream --parallel"
   },
@@ -30,7 +30,7 @@
     "prettier": "^2.0.5",
     "tsup": "^3.6.1",
     "typescript": "^4.0.2",
-    "vite": "^1.0.0-rc.4",
+    "vite": "^2.0.0-beta.3",
     "vite-plugin-voie": "file:./packages/vite-plugin-voie",
     "vue-router": "^4.0.2",
     "yorkie": "^2.0.0"
