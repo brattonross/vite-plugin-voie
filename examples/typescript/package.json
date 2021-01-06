@@ -1,0 +1,21 @@
+{
+  "private": true,
+  "name": "typescript",
+  "version": "0.6.0",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "serve": "vite serve"
+  },
+  "dependencies": {
+    "vue": "^3.0.0-rc.5",
+    "vue-router": "^4.0.0-beta.4"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^1.0.4",
+    "@vuedx/typescript-plugin-vue": "^0.4.1",
+    "typescript": "^4.1.3",
+    "vite-plugin-voie": "file:../../packages/vite-plugin-voie",
+    "voie-pages": "^0.4.0"
+  }
+}
