@@ -1,4 +1,3 @@
-import { join } from 'path';
 import { Route } from './../src/options';
 import { buildRoutes } from '../src/routes';
 
@@ -202,11 +201,11 @@ test('given a glob as pagesDir and extend route it should resolve to correct pat
 });
 
 test('given a custom root, should return the correct component path', () => {
-  const root = join(__dirname, 'app');
+  const root = 'app';
   const files = [
-    join(root, 'pages/index.vue'),
-    join(root, 'pages/user/index.vue'),
-    join(root, 'pages/user/one.vue'),
+    'app/pages/index.vue',
+    'app/pages/user/index.vue',
+    'app/pages/user/one.vue',
   ];
   const expected: Route[] = [
     {
@@ -228,7 +227,7 @@ test('given a custom root, should return the correct component path', () => {
 
   const actual = buildRoutes({
     files,
-    dir: join(root, 'pages'),
+    dir: 'app/pages',
     extensions: defaultExtensions,
     root,
   });

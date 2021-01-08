@@ -9,8 +9,24 @@ import { buildRoutes, stringifyRoutes } from './routes';
  */
 export async function generateRoutesCode(options: Options) {
   const { root, pagesDir, exclude, extensions, extendRoute } = options;
-  const dir = path.join(root, pagesDir);
+  const dir = normalizePath(path.join(root, pagesDir));
   const files = await resolve({ dir, extensions, exclude });
-  const routes = buildRoutes({ files, dir, extensions, root, extendRoute });
+
+  const normalizedRoot = normalizePath(root);
+  const routes = buildRoutes({
+    files,
+    dir,
+    extensions,
+    root: normalizedRoot,
+    extendRoute,
+  });
+
   return stringifyRoutes(routes, options);
+}
+
+/**
+ * Normalizes a path to use forward slashes.
+ */
+function normalizePath(str: string): string {
+  return str.replace(/\\/g, '/');
 }
