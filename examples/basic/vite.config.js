@@ -1,5 +1,6 @@
+import vue from '@vitejs/plugin-vue';
 import voie from 'vite-plugin-voie';
 
 export default {
-  plugins: [voie()],
+  plugins: [vue(), voie()],
 };
