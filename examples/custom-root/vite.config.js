@@ -1,11 +1,13 @@
-import { join } from 'path';
+import path from 'path';
+import vue from '@vitejs/plugin-vue';
 import voie from 'vite-plugin-voie';
 
-const root = join(__dirname, 'app');
+const root = path.join(__dirname, 'app');
 
 export default {
   root,
   plugins: [
+    vue(),
     voie({
       root,
       pagesDir: 'pages',
