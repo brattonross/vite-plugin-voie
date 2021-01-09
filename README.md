@@ -58,7 +58,6 @@ interface UserOptions {
   pagesDir?: string;
   extensions?: string[];
   importMode?: ImportMode | ImportModeResolveFn;
-  root?: string;
   extendRoute?: (route: Route, parent: Route | undefined) => Route | void;
 }
 ```
@@ -93,24 +92,6 @@ export default {
         // Load index synchronously, all other pages are async.
         return path.includes('index') ? 'sync' : 'async';
       },
-    }),
-  ],
-};
-```
-
-### root
-
-Root of your Vite app. This should match the `root` option in your Vite config.
-
-```js
-const root = path.join(__dirname, 'custom-root');
-
-export default {
-  root,
-  plugins: [
-    voie({
-      root,
-      pagesDir: 'pages', // pagesDir will now resolve to 'custom-root/pages'
     }),
   ],
 };
