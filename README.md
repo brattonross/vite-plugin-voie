@@ -2,38 +2,38 @@
 
 ![npm version](https://img.shields.io/npm/v/vite-plugin-voie)
 
-Voie is a [vite](https://github.com/vitejs/vite) plugin which enables file system based routing for Vue 3 applications.
+> File system based routing for Vue 3 applications using [Vite](https://github.com/vitejs/vite)
 
-- File system based routing
-- Code splitting and async components by default
+Voie is a Vite plugin that brings file system based routing to your Vue 3 applications.
 
 ## Getting Started
 
 Install Voie:
 
-> Note: Vite 2 is supported from v0.7.x+, for Vite 1 please use v0.6.x
+> Vite 2 is supported from `^0.7.x`, Vite 1 support is discontinued
 
 ```bash
-$ npm install vite-plugin-voie
+$ npm install -D vite-plugin-voie
 ```
 
-For
-
-> Note: vue-router@4.x is a peer dependency
+> Note: `vue-router@^4` is a peer dependency
 
 Add to your `vite.config.js`:
 
 ```js
+import vue from '@vitejs/plugin-vue';
 import voie from 'vite-plugin-voie';
 
 export default {
-  plugins: [voie()],
+  plugins: [vue(), voie()],
 };
 ```
 
-When using Voie, a page is a Vue component exported from a `.vue` or `.js` file in the `src/pages` directory.
+## Overview
 
-The routes configuration will be exported from the `voie-pages` module. Import this module and add it to your Vue Router configuration:
+By default a page is a Vue component exported from a `.vue` or `.js` file in the `src/pages` directory.
+
+You can access the generated routes by importing the `voie-pages` module in your application.
 
 ```js
 import { createRouter } from 'vue-router';
@@ -45,15 +45,13 @@ const router = createRouter({
 });
 ```
 
-> Note: TypeScript users can install type definitions for the generated routes via the voie-pages package:
+> Note: TypeScript users can install type definitions for the generated routes via the `voie-pages` package:
 
 ```bash
-$ npm install --save-dev voie-pages
+$ npm install -D voie-pages
 ```
 
 ## Configuration
-
-Voie supports some configuration options in case your environment doesn't match the defaults.
 
 ```ts
 interface UserOptions {
@@ -73,13 +71,13 @@ Relative path to the pages directory. Supports globs.
 
 ### extensions
 
-Array of valid extensions for pages.
+Array of valid file extensions for pages.
 
 **Default:** `['vue', 'js']`
 
 ### importMode
 
-A string or function that returns a string which represents whether routes should be loaded synchronously or asynchronously.
+Import mode can be set to either `async`, `sync`, or a function which returns one of those values.
 
 **Default:** `'async'`
 
@@ -120,7 +118,7 @@ export default {
 
 ### extendRoute
 
-A function that takes a `Route` object (and that route's parent route), and optionally returns a modified route. This is useful for augmenting your routes with extra data (e.g. route metadata).
+A function that takes a route and optionally returns a modified route. This is useful for augmenting your routes with extra data (e.g. route metadata).
 
 ```js
 // vite.config.js
@@ -128,7 +126,7 @@ export default {
   // ...
   plugins: [
     voie({
-      extendRoute(route) {
+      extendRoute(route, parent) {
         if (route.path === '/') {
           // Index is unauthenticated.
           return route;
@@ -145,7 +143,9 @@ export default {
 };
 ```
 
-To use custom configuration, pass your options to Voie when creating the plugin:
+### Using configuration
+
+To use custom configuration, pass your options to Voie when instantiating the plugin:
 
 ```js
 // vite.config.js
@@ -163,25 +163,51 @@ export default {
 
 ## File System Routing
 
-Voie's routing is inspired by [NuxtJS](https://nuxtjs.org/guides/features/file-system-routing), and so you can expect similar features with some small differences.
+Voie is inspired by the routing from [NuxtJS](https://nuxtjs.org/guides/features/file-system-routing) 💚
+
+Voie automatically generates an array of routes for you to plug-in to your instance of Vue Router. These routes are determined by the structure of the files in your pages directory. Simply create `.vue` files in your pages directory and routes will automatically be created for you, no additional configuration required!
+
+For more advanced use cases, you can tailor Voie to fit the needs of your app through [configuration](https://github.com/brattonross/vite-plugin-voie#configuration).
+
+- [Basic Routing](https://github.com/brattonross/vite-plugin-voie#basic-routing)
+- [Index Routes](https://github.com/brattonross/vite-plugin-voie#index-routes)
+- [Dynamic Routes](https://github.com/brattonross/vite-plugin-voie#dynamic-routes)
+- [Nested Routes](https://github.com/brattonross/vite-plugin-voie#nested-routes)
+- [Catch-all Routes](https://github.com/brattonross/vite-plugin-voie#catch-all-routes)
+
+### Basic Routing
+
+Voie will automatically map files from your pages directory to a route with the same name:
+
+- `src/pages/users.vue` -> `/users`
+- `src/pages/users/profile.vue` -> `/users/profile`
+- `src/pages/settings.vue` -> `/settings`
 
 ### Index Routes
 
-Voie will automatically map files named `index` to the root of the directory:
+Files with the name `index` are treated as the index page of a route:
 
 - `src/pages/index.vue` -> `/`
 - `src/pages/users/index.vue` -> `/users`
 
+### Dynamic Routes
+
+Dynamic routes are denoted using square brackets. Both directories and pages can be dynamic:
+
+- `src/pages/users/[id].vue` -> `/users/:id` (`/users/one`)
+- `src/[user]/settings.vue` -> `/:user/settings` (`/one/settings`)
+
+Any dynamic parameters will be passed to the page as props. For example, given the file `src/pages/users/[id].vue`, the route `/users/abc` will be passed the following props:
+
+```json
+{ "id": "abc" }
+```
+
 ### Nested Routes
 
-A nested folder structure will result in nested routes, making use of Vue Router's child routes:
+We can make use of Vue Routers child routes to create nested layouts. The parent component can be defined by giving it the same name as the directory that contains your child routes.
 
-- `src/pages/users/one.vue` -> `/users/one`
-- `src/pages/dashboard/settings/profile.vue` -> `/dashboard/settings/profile`
-
-You can effectively create layout pages by naming a page with the same name as the directory that contains its children pages:
-
-This directory structure:
+For example, this directory structure:
 
 ```
 src/pages/
@@ -213,13 +239,6 @@ will result in this routes configuration:
   },
 ];
 ```
-
-### Dynamic Routes
-
-Dynamic routes are denoted using square brackets. Directories and pages can be dynamic:
-
-- `src/pages/users/[id].vue` -> `/users/:id` (`/users/one`)
-- `src/[user]/settings.vue` -> `/:user/settings` (`/one/settings`)
 
 ### Catch-all Routes
 
