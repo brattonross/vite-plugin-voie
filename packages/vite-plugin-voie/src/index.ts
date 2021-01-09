@@ -17,6 +17,9 @@ function createPlugin(userOptions: UserOptions = {}): Plugin {
   return {
     name: 'voie',
     enforce: 'pre',
+    configResolved(config) {
+      options.root = config.root;
+    },
     resolveId(source) {
       if (source === MODULE_NAME) {
         return source;

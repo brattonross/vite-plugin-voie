@@ -36,7 +36,7 @@ export interface Options {
 export type ImportMode = 'sync' | 'async';
 export type ImportModeResolveFn = (filepath: string) => ImportMode;
 
-export type UserOptions = Partial<Options>;
+export type UserOptions = Partial<Omit<Options, 'root'>>;
 
 export interface Route {
   name?: string;
