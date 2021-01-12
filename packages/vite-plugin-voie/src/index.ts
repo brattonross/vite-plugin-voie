@@ -13,6 +13,8 @@ function createPlugin(userOptions: UserOptions = {}): Plugin {
     extendRoute: (route) => route,
     ...userOptions,
   };
+  
+  const pagesRootDir = resolve(options.root, options.pagesDir);
 
   return {
     name: 'voie',
@@ -31,6 +33,15 @@ function createPlugin(userOptions: UserOptions = {}): Plugin {
         return await generateRoutesCode(options);
       }
       return null;
+    },
+    handleHotUpdate({ file, server }) {
+      if (file.startsWith(pagesRootDir)) {
+        const { moduleGraph } = server;
+        const module = moduleGraph.getModuleById(MODULE_NAME);
+      
+        return [module];
+      }
+      return [];
     },
   };
 }
