@@ -4,6 +4,8 @@
 
 > File system based routing for Vue 3 applications using [Vite](https://github.com/vitejs/vite)
 
+**Note:** This project is no longer actively maintained. If you are looking for a file-based routing system for Vite, other kind members of the community have built a solution over at [vite-plugin-pages](https://github.com/hannoeru/vite-plugin-pages)
+
 Voie is a Vite plugin that brings file system based routing to your Vue 3 applications.
 
 ## Getting Started
