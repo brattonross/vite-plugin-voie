@@ -15,7 +15,7 @@ Install Voie:
 > Vite 2 is supported from `^0.7.x`, Vite 1 support is discontinued
 
 ```bash
-$ npm install -D vite-plugin-voie
+npm install -D vite-plugin-voie
 ```
 
 > Note: `vue-router@^4` is a peer dependency
@@ -50,7 +50,7 @@ const router = createRouter({
 > Note: TypeScript users can install type definitions for the generated routes via the `voie-pages` package:
 
 ```bash
-$ npm install -D voie-pages
+npm install -D voie-pages
 ```
 
 ## Configuration
